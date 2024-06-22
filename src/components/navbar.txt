@@ -1,0 +1,524 @@
+import React, { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
+import logoSrawung from "../assets/LOGO/baruy.png"
+import { Container } from "react-bootstrap";
+
+function Navbar() {
+
+    const [open, setOpen] = useState(false);
+
+    let menuRef = useRef();
+
+    useEffect(() => {
+        let handler = (e) => {
+            if (!menuRef.current.contains(e.target)) {
+                setOpen(false);
+                console.log(menuRef.current);
+            }
+        };
+
+        document.addEventListener("mousedown", handler);
+
+        return () => {
+            document.removeEventListener("mousedown", handler);
+        }
+    });
+    const [active, setactivate] = useState(false);
+    window.addEventListener("scroll", function () {
+        if (this.window.scrollY > 150) {
+            setactivate(true);
+        } else {
+            setactivate(false);
+        }
+    });
+
+    return (
+        <div className="navbar-container">
+          <Container>
+            <img src={logoSrawung} alt="logoSrawung" className="logoSrawung"/>
+          </Container>
+          <Container>
+            <header className={active ? "activenav" : "nav"}>
+                <div className="navbar-list">
+                    <ul className="menu">
+                        <li>
+                            <Link className="link" to="/">HOME</Link>
+                        </li>
+                        <li>
+                            <Link className="link" to="/Kategori">KATEGORI</Link>
+                        </li>
+                        <li>
+                            <Link className="link" to="/pengumuman">NOMINASI</Link>
+                        </li>
+                        <li className="navbar-menu" ref={menuRef}>
+                            <div className="link" onClick={() => { setOpen(!open) }} >EVENT</div>
+                            <div className={`navbar-dropdown ${open ? 'active' : 'inactive'}`}>
+                                <ul className="list">
+                                    <li>
+                                        <Link className="sub-link" to="/Event2023">2023</Link>
+                                    </li>
+                                    <li>
+                                        <Link className="sub-link" to="/Event2024">2024</Link>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li> 
+                        <li>
+                            <Link className="link" to="/berita">SPONSOR</Link>
+                        </li>
+                    </ul>
+                </div>
+            </header>            
+            </Container>
+        </div>
+    );
+}
+
+export default Navbar;
+
+=========
+
+
+  /* AWAL STYLE NAVBAR */
+  .navbar-container .logoSrawung{
+    height: 116px;
+    width: 147px;
+    padding: 4px;
+    margin-left: 80px;
+  }
+
+
+  .navbar-container {
+    background-color: #FDBD55;
+    height: 120px;
+    flex-shrink: 0;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .navbar-container .activenav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #FDBD55;
+    width: 100%;
+    height: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    z-index: 999999;
+  }
+  
+  .navbar-container .navbar-list {
+    font-family: "Poppins", sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin-left: -340px;
+  }
+  
+  .navbar-container .menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+    list-style: none;
+    margin-top: 15px;
+  }
+  
+  .navbar-container .line-link {
+    height: 2.5px;
+    margin-left: -20px;
+    background-color: #FDBD55;
+  }
+  
+  .navbar-container .link {
+    color: #FFF;
+    text-decoration: none;
+    text-align: center;
+  }
+  
+  .navbar-container .link:hover {
+    color: #000;
+    cursor: pointer;
+    font-weight: 700;
+  }
+  .navbar-container .sub-link {
+    color: #FFF;
+    text-decoration: none;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  
+  .navbar-container .sub-link:hover {
+    color: #000;
+    cursor: pointer;
+    font-weight: 700;
+  }
+  
+  /* .navbar-container .navbar-menu {
+    
+  } */
+  
+  .navbar-container .navbar-dropdown {
+    position: absolute;
+    background-color: #FDBD55;
+    border-width: 4px 0px 0px 0px; /* Atas 0px, Kanan 4px, Bawah 6px, Kiri 8px */
+    border-style: dashed none none none; /* Gaya border untuk setiap sisi */
+    border-top-color: #FDBD55;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Menambahkan shadow untuk efek 3D */
+    border-radius: 5px; /* Menambahkan border radius */
+    width: 110px;
+    height: 70px;
+    padding: 7px; /* Menambahkan padding agar konten terlihat lebih baik */
+    z-index: 9999;
+  }
+  .navbar-container .navbar-dropdown.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(5px);
+    transition: 500ms ease;
+  }
+  .navbar-container .navbar-dropdown.inactive {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-20px);
+    transition: 500ms ease;
+  }
+  /* .navbar-container .navbar-dropdown::before {
+    
+  } */
+  .navbar-container .navbar-dropdown .list {
+    width: 100%;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .navbar-container .navbar-dropdown .list li {
+    text-align: center;
+  }
+
+/* Media Query Navbar */
+@media screen and (max-width: 1200px) {
+    .navbar-container .navbar-list {
+      font-size: 24px;
+      margin-left: -250px;
+    }
+    .navbar-container .logoSrawung{
+      margin-left: 20px;
+    }
+    .navbar-container .menu {
+      gap: 5%;
+    }
+    .navbar-container .navbar-dropdown {
+      width: 90px;
+    }
+    .navbar-container .sub-link {
+      font-size: 24px;
+    }
+    .navbar-container {
+      padding: 10px;
+    }
+    .navbar-container .activenav {
+      padding: 2px;
+    }
+  }
+  @media screen and (max-width: 995px) {
+    .navbar-container .navbar-list {
+      font-size: 22px;
+      margin-left: -210px;
+    }
+    .navbar-container .logoSrawung{
+      height: 100px;
+      width: 130px;
+      padding: 4px;
+      margin-left: 0px;
+    }
+    .navbar-container .menu {
+      gap: 4%;
+    }
+    .navbar-container .navbar-dropdown {
+      width: 80px;
+    }
+    .navbar-container .sub-link {
+      font-size: 22px;
+    }
+    .navbar-container {
+      padding: 10px;
+    }
+    .navbar-container .activenav {
+      padding: 2px;
+    }
+  }
+@media screen and (max-width: 768px) {
+    .navbar-container .navbar-list {
+      font-size: 20px;
+      margin-left: -200px;
+    }
+    .navbar-container .logoSrawung{
+        height: 70px;
+        width: 100px;
+        padding: 3px;
+        margin-left: 0px;
+      }
+    .navbar-container .menu {
+      gap: 4%;
+    }
+    .navbar-container .navbar-dropdown {
+      width: 80px;
+    }
+    .navbar-container .sub-link {
+      font-size: 20px;
+    }
+    .navbar-container {
+      padding: 10px;
+    }
+    .navbar-container .activenav {
+      padding: 2px;
+    }
+  }
+  @media screen and (max-width: 675px) {
+    .navbar-container .navbar-list {
+      font-size: 18px;
+      margin-top: 70px;
+      margin-left: -300px;
+    }
+    .navbar-container .logoSrawung{
+        height: 70px;
+        width: 100px;
+        padding: 3px;
+        margin-top: -30px;
+        margin-left: 260px;
+      }
+    .navbar-container .menu {
+      gap: 5%;
+    }
+    .navbar-container .navbar-dropdown {
+      width: 80px;
+    }
+    .navbar-container .sub-link {
+      font-size: 18px;
+    }
+    .navbar-container {
+      padding: 10px;
+    }
+    .navbar-container .activenav {
+      padding: 2px;
+    }
+  }
+  @media screen and (max-width: 630px) {
+    .navbar-container .navbar-list {
+      font-size: 18px;
+      margin-top: 70px;
+      margin-left: -300px;
+    }
+    .navbar-container .logoSrawung{
+        height: 70px;
+        width: 100px;
+        padding: 3px;
+        margin-top: -30px;
+        margin-left: 250px;
+      }
+    .navbar-container .menu {
+      gap: 5%;
+    }
+    .navbar-container .navbar-dropdown {
+      width: 80px;
+    }
+    .navbar-container .sub-link {
+      font-size: 18px;
+    }
+    .navbar-container {
+      padding: 10px;
+    }
+    .navbar-container .activenav {
+      padding: 2px;
+    }
+  }
+  @media screen and (max-width: 600px) {
+    .navbar-container .navbar-list {
+        font-size: 18px;
+        margin-top: 70px;
+        margin-left: -290px;
+    }
+    .navbar-container .logoSrawung{
+          height: 70px;
+          width: 100px;
+          padding: 3px;
+          margin-top: -30px;
+          margin-left: 230px;
+    }
+    .navbar-container .menu {
+        gap: 3%;
+    }
+    .navbar-container .navbar-dropdown {
+        width: 50px;
+    }
+    .navbar-container .sub-link {
+        font-size: 18px;
+    }
+    .navbar-container {
+        padding: 4px;
+    }
+    .navbar-container .activenav {
+        padding: 1px;
+    }
+  }
+  @media screen and (max-width: 550px) {
+    .navbar-container .navbar-list {
+        font-size: 16px;
+        margin-top: 70px;
+        margin-left: -270px;
+      }
+      .navbar-container .logoSrawung{
+        height: 70px;
+        width: 100px;
+        padding: 3px;
+        margin-top: -30px;
+        margin-left: 200px;
+      }
+      .navbar-container .menu {
+        gap: 3%;
+      }
+      .navbar-container .navbar-dropdown {
+        width: 50px;
+      }
+      .navbar-container .sub-link {
+        font-size: 16px;
+      }
+      .navbar-container {
+        padding: 4px;
+      }
+      .navbar-container .activenav {
+        padding: 1px;
+      }
+    }
+  @media screen and (max-width: 500px) {
+    .navbar-container .navbar-list {
+        font-size: 14px;
+        margin-top: 70px;
+        margin-left: -260px;
+    }
+    .navbar-container .logoSrawung{
+        height: 70px;
+        width: 100px;
+        padding: 3px;
+        margin-top: -30px;
+        margin-left: 180px;
+      }
+    .navbar-container .menu {
+      gap: 3%;
+    }
+    .navbar-container .navbar-dropdown {
+      width: 50px;
+    }
+    .navbar-container .sub-link {
+      font-size: 14px;
+    }
+    .navbar-container {
+      padding: 4px;
+    }
+    .navbar-container .activenav {
+      padding: 1px;
+    }
+  }
+  @media screen and (max-width: 450px) {
+    .navbar-container .navbar-list {
+        font-size: 14px;
+        margin-top: 70px;
+        margin-left: -255px;
+    }
+    .navbar-container .logoSrawung{
+        height: 70px;
+        width: 100px;
+        padding: 3px;
+        margin-top: -30px;
+        margin-left: 155px;
+      }
+    .navbar-container .menu {
+      gap: 3%;
+    }
+    .navbar-container .navbar-dropdown {
+      width: 50px;
+    }
+    .navbar-container .sub-link {
+      font-size: 14px;
+    }
+    .navbar-container {
+      padding: 4px;
+    }
+    .navbar-container .activenav {
+      padding: 1px;
+    }
+  }
+  @media screen and (max-width: 400px) {
+    .navbar-container .navbar-list {
+        font-size: 13px;
+        margin-top: 70px;
+        margin-left: -250px;
+    }
+    .navbar-container .logoSrawung{
+        height: 70px;
+        width: 100px;
+        padding: 3px;
+        margin-top: -30px;
+        margin-left: 130px;
+      }
+    .navbar-container .menu {
+      gap: 3%;
+    }
+    .navbar-container .navbar-dropdown {
+      width: 50px;
+    }
+    .navbar-container .sub-link {
+      font-size: 13px;
+    }
+    .navbar-container {
+      padding: 4px;
+    }
+    .navbar-container .activenav {
+      padding: 1px;
+    }
+  }
+  @media screen and (max-width: 365px) {
+    .navbar-container .navbar-list {
+        font-size: 13px;
+        margin-top: 70px;
+        margin-left: -250px;
+    }
+    .navbar-container .logoSrawung{
+        height: 70px;
+        width: 100px;
+        padding: 3px;
+        margin-top: -30px;
+        margin-left: 125px;
+      }
+    .navbar-container .menu {
+      gap: 2%;
+    }
+    .navbar-container .navbar-dropdown {
+      width: 50px;
+    }
+    .navbar-container .sub-link {
+      font-size: 13px;
+    }
+    .navbar-container {
+      padding: 4px;
+    }
+    .navbar-container .activenav {
+      padding: 1px;
+    }
+  }
+
+
+/* Media Query Navbar */
+
+  /* AKHIR STYLE NAVBAR */
+ 
